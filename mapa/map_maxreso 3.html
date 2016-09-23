@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>OpenLayers Demo</title>
+    <link rel="stylesheet" href="./OpenLayers-2.13.1/theme/default/style.css" type="text/css">
+    <style type="text/css">
+      html, body, #basicMap {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+      }
+    </style>
+    <script src="./OpenLayers-2.13.1/lib/OpenLayers.js"></script>
+    <script>
+      function init() {
+	  
+		var controls = [
+                        new OpenLayers.Control.Navigation(),
+                        new OpenLayers.Control.LayerSwitcher({'ascending':false}),
+                        new OpenLayers.Control.ScaleLine(),
+                        new OpenLayers.Control.MousePosition(),
+                        new OpenLayers.Control.OverviewMap()
+                    ];
+
+		var projectionMap = new OpenLayers.Projection("EPSG:25830");   // Transform from WGS 1984
+		
+		var bboxCanadaRosal = "183330.670327,4074967.144936,357813.092202,4235080.426186";
+		var posisionCanada = new OpenLayers.LonLat(305000,4163212);
+		var zoom = 8;
+		
+		map = new OpenLayers.Map('basicMap',{
+                //maxExtent: new OpenLayers.Bounds(96500,3960000,622000,4300000),       ////Andalucia
+                maxExtent: new OpenLayers.Bounds(183330.670327,4074967.144936,357813.092202,4235080.426186),    ////Andalucia
+                units: 'm',
+                projection: projectionMap
+		});
+
+		map.addControls(controls);
+		
+		map.addLayer(new OpenLayers.Layer.WMS( "Callejero Completo",
+                "http://www.juntadeandalucia.es/servicios/mapas/callejero/wms?",
+                {layers: 'CallejeroCompleto', transparent: false}, {isBaseLayer: true, visibility:false,transitionEffect: 'resize'}
+		));
+		
+		map.addLayer(new OpenLayers.Layer.WMS( "Catastro",
+                "http://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx?",
+                {layers: 'catastro', transparent: false}, {isBaseLayer: true, visibility:false,transitionEffect: 'resize'}
+		));
+		
+		map.addLayer(new OpenLayers.Layer.WMS( "Alcorques",
+                "http://kzanube-mmm.tk:9090/geoareciar/ayto/wms?",
+                {layers: 'ayto:alcorques', transparent: true}, {isBaseLayer: false, visibility:false,transitionEffect: 'resize'}
+		));
+		map.addLayer(new OpenLayers.Layer.WMS( "Fuentes",
+						"http://kzanube-mmm.tk:9090/geoareciar/ayto/wms?",
+						{layers: 'ayto:fuentes', transparent: true}, {isBaseLayer: false, visibility:false,transitionEffect: 'resize'}
+				));
+		map.addLayer(new OpenLayers.Layer.WMS( "Armarios de Semaforos",
+						"http://kzanube-mmm.tk:9090/geoareciar/ayto/wms?",
+						{layers: 'ayto:armarios_semaforos', transparent: true}, {isBaseLayer: false, visibility:false,transitionEffect: 'resize'}
+				));
+		map.addLayer(new OpenLayers.Layer.WMS( "Asientos",
+						"http://kzanube-mmm.tk:9090/geoareciar/ayto/wms?",
+						{layers: 'ayto:asientos', transparent: true}, {isBaseLayer: false, visibility:false,transitionEffect: 'resize'}
+				));
+		map.addLayer(new OpenLayers.Layer.WMS( "Bolardos",
+                "http://kzanube-mmm.tk:9090/geoareciar/ayto/wms?",
+                {layers: 'ayto:bolardos', transparent: true}, {isBaseLayer: false, visibility:false,transitionEffect: 'resize'}
+		));
+		map.addLayer(new OpenLayers.Layer.WMS( "Barandillas",
+						"http://kzanube-mmm.tk:9090/geoareciar/ayto/wms?",
+						{layers: 'ayto:barandillas', transparent: true}, {isBaseLayer: false, visibility:false,transitionEffect: 'resize'}
+				));
+		map.addLayer(new OpenLayers.Layer.WMS( "Buzones",
+						"http://kzanube-mmm.tk:9090/geoareciar/ayto/wms?",
+						{layers: 'ayto:buzones', transparent: true}, {isBaseLayer: false, visibility:false,transitionEffect: 'resize'}
+				));
+
+		map.addLayer(new OpenLayers.Layer.WMS( "Jardineras",
+						"http://kzanube-mmm.tk:9090/geoareciar/ayto/wms?",
+						{layers: 'ayto:jardineras', transparent: true}, {isBaseLayer: false, visibility:false,transitionEffect: 'resize'}
+				));
+		map.addLayer(new OpenLayers.Layer.WMS( "Juegos Infantiles",
+						"http://kzanube-mmm.tk:9090/geoareciar/ayto/wms?",
+						{layers: 'ayto:juegos_infantiles', transparent: true}, {isBaseLayer: false, visibility:false,transitionEffect: 'resize'}
+				));		
+		
+		/*
+			map.addLayer(new OpenLayers.Layer.WMS( "Portales",
+                "http://"+ipHome+":9090/geoareciar/areciar/wms?",
+                {layers: 'areciar:portalpk_l1f3', transparent: true}, {isBaseLayer: false}
+    ));
+		*/
+        //map.addLayer(mapnik);
+        map.setCenter(posisionCanada, zoom );
+        //map.setCenter(position2, zoom );
+		//map.maxExtent();
+		//map.setCenter(map.maxExtent,2);
+      }
+    </script>
+  </head>
+  <body onload="init();">
+    <div id="basicMap"></div>
+  </body>
+</html>
